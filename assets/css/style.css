@@ -1,0 +1,188 @@
+:root {
+    --background: #b3b5c5;
+    --border: rgb(16, 11, 29);
+    --cardBackground: #8c85b1;
+    --textColorLight: white;
+    --textColorDark: black;
+    --button: #464b92;
+    --buttonHover: rgb(102, 112, 204);
+    --shadow: rgb(56, 20, 20);
+    --titlebackground: #374270;
+    --border-radius: 0.3rem;
+}
+
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text {
+    background-color: var(--background);
+    font-size: 1.3rem;
+    padding: 6px 5px;
+    width: 80%;
+    color: var(--textColorLight);
+    border-radius: var(--border-radius);
+    margin: 5px auto 5px auto;
+    box-shadow: 3px 3px var(--shadow);
+    opacity: 80%;
+}
+
+#newsButton,
+#spaceNewsButton,
+#favoriteNewsButton,
+#goBackButton {
+    font-size: 1.3rem;
+    text-decoration: none;
+    padding: 6px 5px;
+    display: block;
+    width: 80%;
+    margin: 10px auto 10px auto;
+    border-radius: var(--border-radius);
+    color: var(--textColorLight);
+    border: none;
+    outline: none;
+    background-color: var(--button);
+    box-shadow: 3px 3px var(--shadow);
+    opacity: 80%;
+    transform: translate(-1px, -1px);
+  }
+
+  #newsButton:hover,
+  #spaceNewsButton:hover,
+  #favoriteNewsButton:hover,
+  #goBackButton:hover,
+  li:hover {
+    color: var(--textColorLight);
+    background-color: var(--buttonHover);
+    transform: translate(0, 0);
+    box-shadow: 2px 2px var(--shadow);
+  }
+
+ li {
+    display: inline-block;
+    position: relative;
+    list-style-type: none;
+    color: var(--textColorLight);
+    background-color: var(--background);
+    border-radius: var(--border-radius);
+    margin: 5px auto 5px auto;
+    text-decoration: none;
+    margin: 5px auto 5px auto;
+    transform: translate(-1px, -1px);
+    opacity: 80%;
+  }
+
+.hide {
+    display: none;
+}
+
+
+
+
+
+
+
+  
+/* Below is CSS for background animation */
+
+@keyframes move-background {
+    from {
+          -webkit-transform: translate3d(0px, 0px, 0px);
+      }
+      to { 
+          -webkit-transform: translate3d(1000px, 0px, 0px);
+      }
+  }
+  @-webkit-keyframes move-background {
+    from {
+          -webkit-transform: translate3d(0px, 0px, 0px);
+      }
+      to { 
+          -webkit-transform: translate3d(1000px, 0px, 0px);
+      }
+  }
+  
+  @-moz-keyframes move-background {    
+      from {
+          -webkit-transform: translate3d(0px, 0px, 0px);
+      }
+      to { 
+          -webkit-transform: translate3d(1000px, 0px, 0px);
+      }
+  }
+  
+      @-webkit-keyframes move-background {
+      from {
+          -webkit-transform: translate3d(0px, 0px, 0px);
+      }
+      to { 
+          -webkit-transform: translate3d(1000px, 0px, 0px);
+      }
+  }
+  
+  .background-container{
+      position: fixed;
+      top: 0;
+      left:0;
+      bottom: 0;
+      right: 0;
+  }
+  
+  .stars {
+   background: black url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/1231630/stars.png) repeat;
+   position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: block;
+        z-index: 0;
+  }
+  
+  .twinkling{
+      width:10000px;
+      height: 100%;
+      background: transparent url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/1231630/twinkling.png") repeat;
+      background-size: 1000px 1000px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 2;
+      
+      -moz-animation:move-background 70s linear infinite;
+    -ms-animation:move-background 70s linear infinite;
+    -o-animation:move-background 70s linear infinite;
+    -webkit-animation:move-background 70s linear infinite;
+    animation:move-background 70s linear infinite;
+      
+  }
+  
+  .clouds{
+      width:10000px;
+      height: 100%;
+      background: transparent url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/1231630/clouds_repeat.png") repeat;
+      background-size: 1000px 1000px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 3;
+  
+     -moz-animation:move-background 150s linear infinite;
+    -ms-animation:move-background 150s linear infinite;
+    -o-animation:move-background 150s linear infinite;
+    -webkit-animation:move-background 150s linear infinite;
+    animation:move-background 150s linear infinite;
+  }
+  #background {
+    height: 70vh;
+    width:70vh;
+    position: absolute;
+    z-index: 3;
+    right: 20px;
+  }
+  

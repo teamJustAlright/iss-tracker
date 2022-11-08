@@ -1,8 +1,11 @@
 
 var newsArticles = document.querySelector("#newsArticles")
+var spaceArticles = document.querySelector('#spaceArticles')
 var newsButton = document.querySelector('#newsButton')
 var spaceNewsButton = document.querySelector('#spaceNewsButton')
-var spaceArticles = document.querySelector('#spaceArticles')
+var favoriteNewsButton = document.querySelector('#spaceNewsButton')
+var allNewsButtons = document.querySelector('#allNewsButtons')
+var goBackButton = document.querySelector('#goBackButton')
 
 var sadURL = 'https://api.wheretheiss.at/v1/satellites/25544'
 function fetchSatellites() {
@@ -60,7 +63,7 @@ function fetchSatellites() {
                                         }
                                     })
                             }
-                            fetchOceanNews() 
+                            fetchOceanNews()
                         }
                         else {
                             function fetchNews() {
@@ -105,6 +108,8 @@ function fetchSatellites() {
 // function showing ISS location in map
 // function pulling space news
 var callSpaceNews = function () {
+
+
     const options = {
         method: 'GET',
         headers: {
@@ -116,7 +121,7 @@ var callSpaceNews = function () {
     fetch('https://space-news.p.rapidapi.com/news', options)
         .then(function (response) {
             return response.json();
-        })   
+        })
         .then(function (response) {
             console.log(response)
             for (var i = 0; i < 10; i++) {
@@ -130,9 +135,16 @@ var callSpaceNews = function () {
                 dispLink.appendChild(dispTitle)
                 spaceArticles.appendChild(dispLink)
             }
-        }) 
+        })
         .catch(err => console.error(err));
 }
 
+//function resetHomePage() {
+//allNewsButtons.classList.add('hide');
+// goBackButton.classList.remove('hide');
+//need to reset news articles too
+//}
+
+//goBackButton.addEventListener('click', resetHomePage);
 newsButton.addEventListener('click', fetchSatellites);
 spaceNewsButton.addEventListener('click', callSpaceNews);
