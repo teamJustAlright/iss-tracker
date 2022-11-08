@@ -50,6 +50,7 @@
             </div>
             <div>
                 <!-- images/url of location, updating map -->
+                <div class="column" id="map"></div>
             </div>
         </section>
     </header>
@@ -58,7 +59,7 @@
 
         <section class="goBack center">
             <div class="column is-one-quarter hide">
-                <button id="goBackButton"">Go Back</button>
+                <button id="goBackButton">Go Back</button>
             </div>
         </section>
 
@@ -96,5 +97,8 @@
 
 </body>
 <script src="./assets/js/script.js"></script>
+<script src="./google.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBv9yMYqZYu60RmI1WQ1ArUOAp8V2uyGJM&callback=initMap"
+    defer></script>
 
 </html>
