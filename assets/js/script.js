@@ -58,8 +58,11 @@ function fetchSatellites() {
                                             dispTitle.textContent = title
                                             var link = newsData.value[i].url
                                             var dispLink = document.createElement('a')
+                                            var dispCheck = document.createElement('input')
+                                            dispCheck.setAttribute('type', 'checkbox')
                                             dispLink.setAttribute('href', link)
                                             dispLink.setAttribute('target', "_blank")
+                                            dispTitle.appendChild(dispCheck)
                                             dispLink.appendChild(dispTitle)
                                             newsArticles.appendChild(dispLink)
                                         }
@@ -91,8 +94,11 @@ function fetchSatellites() {
                                             dispTitle.textContent = title
                                             var link = newsData.value[i].url
                                             var dispLink = document.createElement('a')
+                                            var dispCheck = document.createElement('input')
+                                            dispCheck.setAttribute('type', 'checkbox')
                                             dispLink.setAttribute('href', link)
                                             dispLink.setAttribute('target', "_blank")
+                                            dispTitle.appendChild(dispCheck)
                                             dispLink.appendChild(dispTitle)
                                             newsArticles.appendChild(dispLink)
                                         }
@@ -133,8 +139,11 @@ var callSpaceNews = function () {
                 dispTitle.textContent = title
                 var link = response[i].url
                 var dispLink = document.createElement('a')
+                var dispCheck = document.createElement('input')
+                dispCheck.setAttribute('type', 'checkbox')
                 dispLink.setAttribute('href', link)
                 dispLink.setAttribute('target', "_blank")
+                dispTitle.appendChild(dispCheck)
                 dispLink.appendChild(dispTitle)
                 spaceArticles.appendChild(dispLink)
             }
