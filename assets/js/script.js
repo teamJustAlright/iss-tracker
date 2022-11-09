@@ -1,4 +1,3 @@
-
 var newsArticles = document.querySelector("#newsArticles")
 var spaceArticles = document.querySelector('#spaceArticles')
 var newsButton = document.querySelector('#newsButton')
@@ -151,6 +150,51 @@ var callSpaceNews = function () {
         .catch(err => console.error(err));
 }
 
+function fetchLocation() {
+    var latty  
+    var long  
+
+    fetch(sadURL)
+        .then(function (res) {
+            return res.json();
+        })
+        .then(function (data) {
+            var latty = data.latitude
+            var long = data.longitude
+            console.log(latty)
+            console.log(long)
+
+            function initMap(latty, long) {
+                var options = {
+                    zoom: 4,
+                    center: { lat: parseFloat(data.latitude), lng: parseFloat(data.longitude) }
+                }
+                var map = new google.maps.Map(document.getElementById("map"), options)
+                var marker = new google.maps.Marker({
+                    position: { lat: parseFloat(data.latitude), lng: parseFloat(data.longitude) },
+                    map: map,
+                })
+            }
+            initMap();
+        })
+        .catch(function (err) {
+            console.error(err);
+        });
+}
+fetchLocation();
+
+
+// function initMap(lat, long) {
+//     var options = {
+//         zoom: 8,
+//         center: lat, long
+//     }
+//     var map = new google.maps.Map(document.getElementById("map"), options)
+//     var marker = new google.maps.Marker({
+//         position: lat, long,
+//         map: map,
+//     })
+// }
 //function resetHomePage() {
 //allNewsButtons.classList.add('hide');
 // goBackButton.classList.remove('hide');
