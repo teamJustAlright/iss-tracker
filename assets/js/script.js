@@ -9,6 +9,7 @@ var goBackButton = document.querySelector('#goBackButton')
 
 var sadURL = 'https://api.wheretheiss.at/v1/satellites/25544'
 function fetchSatellites() {
+    newsArticles.innerHTML = " ";
     fetch(sadURL)
         .then(function (res) {
             console.log(res)
@@ -58,6 +59,7 @@ function fetchSatellites() {
                                             var link = newsData.value[i].url
                                             var dispLink = document.createElement('a')
                                             dispLink.setAttribute('href', link)
+                                            dispLink.setAttribute('target', "_blank")
                                             dispLink.appendChild(dispTitle)
                                             newsArticles.appendChild(dispLink)
                                         }
@@ -90,6 +92,7 @@ function fetchSatellites() {
                                             var link = newsData.value[i].url
                                             var dispLink = document.createElement('a')
                                             dispLink.setAttribute('href', link)
+                                            dispLink.setAttribute('target', "_blank")
                                             dispLink.appendChild(dispTitle)
                                             newsArticles.appendChild(dispLink)
                                         }
@@ -108,8 +111,7 @@ function fetchSatellites() {
 // function showing ISS location in map
 // function pulling space news
 var callSpaceNews = function () {
-
-
+    spaceArticles.innerHTML = " ";
     const options = {
         method: 'GET',
         headers: {
@@ -132,6 +134,7 @@ var callSpaceNews = function () {
                 var link = response[i].url
                 var dispLink = document.createElement('a')
                 dispLink.setAttribute('href', link)
+                dispLink.setAttribute('target', "_blank")
                 dispLink.appendChild(dispTitle)
                 spaceArticles.appendChild(dispLink)
             }
