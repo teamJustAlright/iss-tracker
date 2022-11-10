@@ -1,12 +1,30 @@
+var currentArticles = [];
+var allStoredArticles = [];
+
 var newsArticles = document.querySelector("#newsArticles")
 var spaceArticles = document.querySelector('#spaceArticles')
+var favoriteArticles = document.querySelector('#favoriteArticles')
 var newsButton = document.querySelector('#newsButton')
 var spaceNewsButton = document.querySelector('#spaceNewsButton')
-var favoriteNewsButton = document.querySelector('#spaceNewsButton')
+var favoriteNewsButton = document.querySelector('#favoriteNewsButton')
 var allNewsButtons = document.querySelector('#allNewsButtons')
 var goBackButton = document.querySelector('#goBackButton')
 
 var sadURL = 'https://api.wheretheiss.at/v1/satellites/25544'
+
+function init() {
+    if (localStorage.getItem('storedArticle') == null || []) {
+        localStorage.setItem('storedArticle', '[]');
+        console.log('localStorage is empty')
+    }
+    if (localStorage.getItem('currentArticle') == null || []) {
+        localStorage.setItem('currentArticle', '[]');
+        console.log('localStorage is empty')
+    }
+
+}
+
+
 function fetchSatellites() {
     newsArticles.innerHTML = " ";
     fetch(sadURL)
@@ -113,7 +131,8 @@ function fetchSatellites() {
             console.error(err);
         });
 }
-// function showing ISS location in map
+
+
 // function pulling space news
 var callSpaceNews = function () {
     spaceArticles.innerHTML = " ";
@@ -140,19 +159,103 @@ var callSpaceNews = function () {
                 var dispLink = document.createElement('a')
                 var dispCheck = document.createElement('input')
                 dispCheck.setAttribute('type', 'checkbox')
+                dispCheck.setAttribute('class', 'storageCheckbox')
+                dispCheck.setAttribute('value', link)
                 dispLink.setAttribute('href', link)
                 dispLink.setAttribute('target', "_blank")
                 dispTitle.appendChild(dispCheck)
                 dispLink.appendChild(dispTitle)
                 spaceArticles.appendChild(dispLink)
+
+
+
+                // store checkboxed articles to array
+                $('.storageCheckbox').on('click', function () {
+                    var pushVal = $(this).val();
+                    console.log(pushVal)
+                    if ($(this).is(':checked')) {
+                        currentArticles.push(pushVal);
+
+                        // removes multiples of same articles created by dynamic for loop that populated the articles
+                        currentArticles = [... new Set(currentArticles)];
+
+                        localStorage.setItem('currentArticle', JSON.stringify(currentArticles));
+
+                    } else {
+                        currentArticles.pop();
+                        localStorage.removeItem('currentArticle', JSON.stringify(pushVal));
+                    }
+
+                    console.log("current articles: " + currentArticles + '\n Current article: ' + localStorage.getItem('currentArticle'))
+                })
+
+
+
             }
         })
         .catch(err => console.error(err));
 }
 
+
+function showStoredArticles(event) {
+    event.preventDefault();
+    console.log("show stored articles function ran")
+
+    //if no local storage, leave blank array
+    if ((localStorage.getItem('storedArticle') === '[]') && (localStorage.getItem('currentArticle') === '[]')) {
+        localStorage.setItem('storedArticle', '[]');
+        console.log('localStorage is empty')
+        return
+    }
+
+    // get stored articles and add current articles
+
+    allStoredArticles = JSON.parse(localStorage.getItem('storedArticle'));
+    if (currentArticles === null) {
+        return
+
+    } else {
+        allStoredArticles.push(currentArticles);
+
+        // save stored & current data
+        localStorage.setItem('storedArticle', JSON.stringify(allStoredArticles));
+
+        allStoredArticles = [... new Set(allStoredArticles)];
+        console.log(allStoredArticles)
+
+        if (localStorage.getItem('storedArticle') != null) {
+
+
+            for (var i = 0; i < allStoredArticles.length; i++) {
+
+                var title = allStoredArticles[i];
+                var dispTitle = document.createElement('li')
+                dispTitle.textContent = title
+                var dispLink = document.createElement('a')
+                var dispCheck = document.createElement('input')
+                dispCheck.setAttribute('type', 'checkbox')
+                dispCheck.setAttribute('class', 'favoriteCheckbox')
+                dispCheck.setAttribute('value', title)
+                dispLink.setAttribute('href', title)
+                dispLink.setAttribute('target', "_blank")
+                dispTitle.appendChild(dispCheck)
+                dispLink.appendChild(dispTitle)
+                favoriteArticles.appendChild(dispLink)
+            }
+
+        }
+
+    }
+}
+
+
+
+
+
+// function showing ISS location in map
 function fetchLocation() {
-    var latty  
-    var long  
+    var latty
+    var long
 
     fetch(sadURL)
         .then(function (res) {
@@ -184,6 +287,11 @@ function fetchLocation() {
 fetchLocation();
 
 
+
+
+
+
+
 // function initMap(lat, long) {
 //     var options = {
 //         zoom: 8,
@@ -201,6 +309,9 @@ fetchLocation();
 //need to reset news articles too
 //}
 
+init();
+
 //goBackButton.addEventListener('click', resetHomePage);
+favoriteNewsButton.addEventListener('click', showStoredArticles);
 newsButton.addEventListener('click', fetchSatellites);
 spaceNewsButton.addEventListener('click', callSpaceNews);
