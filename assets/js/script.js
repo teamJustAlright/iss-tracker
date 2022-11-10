@@ -173,6 +173,10 @@ function fetchLocation() {
                 var marker = new google.maps.Marker({
                     position: { lat: parseFloat(data.latitude), lng: parseFloat(data.longitude) },
                     map: map,
+                    icon: {
+                        url: 'satellite-svgrepo-com.svg',
+                        scaledSize: new google.maps.Size(50, 50)
+                    }
                 })
             }
             initMap();
