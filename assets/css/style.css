@@ -79,6 +79,11 @@
     display: none;
 }
 
+input.storageCheckbox {
+    width: 20px;
+    height: 20px;
+}
+
 #map {
     height: 500px;
     width: 80%;
