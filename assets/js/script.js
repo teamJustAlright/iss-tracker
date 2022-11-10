@@ -180,6 +180,7 @@ function fetchLocation() {
                 })
             }
             initMap();
+            setInterval(function () {initMap();},5000);
         })
         .catch(function (err) {
             console.error(err);
