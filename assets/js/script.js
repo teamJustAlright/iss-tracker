@@ -240,10 +240,6 @@ function showStoredArticles(event) {
     }
 }
 
-
-
-
-
 // function showing ISS location in map
 function fetchLocation() {
     var latty
@@ -275,13 +271,12 @@ function fetchLocation() {
                 })
             }
             initMap();
-            setInterval(function () {initMap();},5000);
         })
         .catch(function (err) {
             console.error(err);
         });
 }
-fetchLocation();
+setInterval(fetchLocation, 5000);
 
 // function initMap(lat, long) {
 //     var options = {

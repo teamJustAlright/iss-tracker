@@ -2,14 +2,9 @@
 
 ## Description
 
-Provide a short description explaining the what, why, and how of your project. Use the following questions as a guide:
-
-- What was your motivation?
-- Why did you build this project? (Note: the answer is not "Because it was a homework assignment.")
-- What problem does it solve?
 - What did you learn?
 
-This application tracks the current location of the International Space Station. Users can generate news articles related to its coordinates on earth and can generate various news articles about space as an added feature. Other ISS trackers exist, but the addition of global news 
+This application tracks the current location of the International Space Station and uses its location to generate locally relevant news articles. The appplicaiton also pulls a series of news articles on space. This applicaiotn provides a nuanced way to get global news from around the world by using the ISS as a guide.  
 
 ## Usage
 
