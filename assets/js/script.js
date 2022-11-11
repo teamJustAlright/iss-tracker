@@ -9,6 +9,7 @@ var spaceNewsButton = document.querySelector('#spaceNewsButton')
 var favoriteNewsButton = document.querySelector('#favoriteNewsButton')
 var allNewsButtons = document.querySelector('#allNewsButtons')
 var goBackButton = document.querySelector('#goBackButton')
+var saveArticleBtn = document.querySelector('#saveArticleBtn')
 
 var sadURL = 'https://api.wheretheiss.at/v1/satellites/25544'
 
@@ -167,30 +168,21 @@ var callSpaceNews = function () {
                 dispLink.appendChild(dispTitle)
                 spaceArticles.appendChild(dispLink)
 
-
-
                 // store checkboxed articles to array
                 $('.storageCheckbox').on('click', function () {
                     var pushVal = $(this).val();
                     console.log(pushVal)
                     if ($(this).is(':checked')) {
                         currentArticles.push(pushVal);
-
                         // removes multiples of same articles created by dynamic for loop that populated the articles
                         currentArticles = [... new Set(currentArticles)];
-
                         localStorage.setItem('currentArticle', JSON.stringify(currentArticles));
-
                     } else {
                         currentArticles.pop();
                         localStorage.removeItem('currentArticle', JSON.stringify(pushVal));
                     }
-
                     console.log("current articles: " + currentArticles + '\n Current article: ' + localStorage.getItem('currentArticle'))
                 })
-
-
-
             }
         })
         .catch(err => console.error(err));
@@ -290,12 +282,6 @@ function fetchLocation() {
         });
 }
 fetchLocation();
-
-
-
-
-
-
 
 // function initMap(lat, long) {
 //     var options = {

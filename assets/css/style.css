@@ -33,7 +33,7 @@
 #newsButton,
 #spaceNewsButton,
 #favoriteNewsButton,
-#goBackButton {
+#saveArticleBtn {
     font-size: 1.3rem;
     text-decoration: none;
     padding: 6px 5px;
@@ -53,7 +53,7 @@
   #newsButton:hover,
   #spaceNewsButton:hover,
   #favoriteNewsButton:hover,
-  #goBackButton:hover,
+  #saveArticleBtn:hover,
   li:hover {
     color: var(--textColorLight);
     background-color: var(--buttonHover);
