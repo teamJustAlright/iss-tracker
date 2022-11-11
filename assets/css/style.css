@@ -61,27 +61,41 @@
     box-shadow: 2px 2px var(--shadow);
   }
 
- li {
-    display: inline-block;
-    position: relative;
-    list-style-type: none;
-    color: var(--textColorLight);
+  li {
     background-color: var(--background);
     border-radius: var(--border-radius);
-    margin: 5px auto 5px auto;
-    text-decoration: none;
-    margin: 5px auto 5px auto;
-    transform: translate(-1px, -1px);
+    color: var(--textColorLight);
+    display: inline-block;
+    height: 85px;
+    list-style-type: none;
+    margin: 10px;
     opacity: 80%;
-  }
+    padding: 2%;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    transform: translate(-1px, -1px);
+    width: 100%;
+}
+
+input[type=checkbox] {
+    float:right;
+    height: 20px;
+    float:right;
+    padding: 0;
+    width: 20px;
+}
 
 .hide {
     display: none;
 }
 
 input.storageCheckbox {
-    width: 20px;
+    float:right;
     height: 20px;
+    float:right;
+    padding: 0;
+    width: 20px;
 }
 
 #map {
