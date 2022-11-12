@@ -1,31 +1,20 @@
-var currentArticles = [];
-var allStoredArticles = [];
+// var currentArticles = [];
+// var allStoredArticles = [];
 
 var newsArticles = document.querySelector("#newsArticles")
 var spaceArticles = document.querySelector('#spaceArticles')
 var favoriteArticles = document.querySelector('#favoriteArticles')
 var newsButton = document.querySelector('#newsButton')
 var spaceNewsButton = document.querySelector('#spaceNewsButton')
-var favoriteNewsButton = document.querySelector('#favoriteNewsButton')
+var clearListBtn = document.querySelector('#clearListBtn')
 var allNewsButtons = document.querySelector('#allNewsButtons')
-var goBackButton = document.querySelector('#goBackButton')
 var saveArticleBtn = document.querySelector('#saveArticleBtn')
+var sadLat = document.querySelector('#sadLat')
+var sadLong = document.querySelector('#sadLong')
 
 var sadURL = 'https://api.wheretheiss.at/v1/satellites/25544'
 
-function init() {
-    if (localStorage.getItem('storedArticle') == null || []) {
-        localStorage.setItem('storedArticle', '[]');
-        console.log('localStorage is empty')
-    }
-    if (localStorage.getItem('currentArticle') == null || []) {
-        localStorage.setItem('currentArticle', '[]');
-        console.log('localStorage is empty')
-    }
-
-}
-
-
+//function getting lat and long of ISS
 function fetchSatellites() {
     newsArticles.innerHTML = " ";
     fetch(sadURL)
@@ -37,9 +26,7 @@ function fetchSatellites() {
             console.log(data)
             var lat = data.latitude
             var long = data.longitude
-            console.log(lat)
-            console.log(long)
-
+            //function getting local area according to lat and long of ISS
             function fetchCoordinates() {
                 var coordURL = "https://api.wheretheiss.at/v1/coordinates/" + lat + "," + long
                 fetch(coordURL)
@@ -51,8 +38,8 @@ function fetchSatellites() {
                         console.log(dataCoord)
                         var search = dataCoord.timezone_id
                         console.log(search)
-                        //get news from iss coordinates api
                         if (search.includes("GMT")) {
+                            //function pulling articles on the ocean when ISS is not over land
                             function fetchOceanNews() {
                                 const options = {
                                     method: 'GET',
@@ -78,7 +65,12 @@ function fetchSatellites() {
                                             var dispLink = document.createElement('a')
                                             var dispCheck = document.createElement('input')
                                             dispCheck.setAttribute('type', 'checkbox')
+<<<<<<< HEAD
                                             dispCheck.setAttribute('class', 'checkboxx')
+=======
+                                            dispCheck.setAttribute('class', 'storageCheckbox')
+                                            dispCheck.setAttribute('value', link)
+>>>>>>> f3368178a9db79793bda94c5e21e7b53739eab0c
                                             dispLink.setAttribute('href', link)
                                             dispLink.setAttribute('target', "_blank")
                                             dispTitle.appendChild(dispCheck)
@@ -90,6 +82,7 @@ function fetchSatellites() {
                             fetchOceanNews()
                         }
                         else {
+                            //function pulling ariticles according to area below ISS
                             function fetchNews() {
                                 const options = {
                                     method: 'GET',
@@ -115,7 +108,12 @@ function fetchSatellites() {
                                             var dispLink = document.createElement('a')
                                             var dispCheck = document.createElement('input')
                                             dispCheck.setAttribute('type', 'checkbox')
+<<<<<<< HEAD
                                             dispCheck.setAttribute('class', 'checkboxx')
+=======
+                                            dispCheck.setAttribute('class', 'storageCheckbox')
+                                            dispCheck.setAttribute('value', link)
+>>>>>>> f3368178a9db79793bda94c5e21e7b53739eab0c
                                             dispLink.setAttribute('href', link)
                                             dispLink.setAttribute('target', "_blank")
                                             dispTitle.appendChild(dispCheck)
@@ -134,7 +132,6 @@ function fetchSatellites() {
             console.error(err);
         });
 }
-
 
 // function pulling space news
 var callSpaceNews = function () {
@@ -170,27 +167,12 @@ var callSpaceNews = function () {
                 dispTitle.appendChild(dispCheck)
                 dispLink.appendChild(dispTitle)
                 spaceArticles.appendChild(dispLink)
-
-                // store checkboxed articles to array
-                $('.storageCheckbox').on('click', function () {
-                    var pushVal = $(this).val();
-                    console.log(pushVal)
-                    if ($(this).is(':checked')) {
-                        currentArticles.push(pushVal);
-                        // removes multiples of same articles created by dynamic for loop that populated the articles
-                        currentArticles = [... new Set(currentArticles)];
-                        localStorage.setItem('currentArticle', JSON.stringify(currentArticles));
-                    } else {
-                        currentArticles.pop();
-                        localStorage.removeItem('currentArticle', JSON.stringify(pushVal));
-                    }
-                    console.log("current articles: " + currentArticles + '\n Current article: ' + localStorage.getItem('currentArticle'))
-                })
             }
         })
         .catch(err => console.error(err));
 }
 
+<<<<<<< HEAD
 
 function showStoredArticles(event) {
     event.preventDefault();
@@ -245,21 +227,17 @@ function showStoredArticles(event) {
 }
 
 // function showing ISS location in map
+=======
+// function showing ISS location in map every 5 seconds
+>>>>>>> f3368178a9db79793bda94c5e21e7b53739eab0c
 function fetchLocation() {
-    var latty
-    var long
 
     fetch(sadURL)
         .then(function (res) {
             return res.json();
         })
         .then(function (data) {
-            var latty = data.latitude
-            var long = data.longitude
-            console.log(latty)
-            console.log(long)
-
-            function initMap(latty, long) {
+            function initMap() {
                 var options = {
                     zoom: 4,
                     center: { lat: parseFloat(data.latitude), lng: parseFloat(data.longitude) }
@@ -275,6 +253,8 @@ function fetchLocation() {
                 })
             }
             initMap();
+            sadLat.textContent = 'Latitude: ' + data.latitude.toFixed(5)
+            sadLong.textContent = 'Longitude: ' + data.longitude.toFixed(5)
         })
         .catch(function (err) {
             console.error(err);
@@ -283,29 +263,15 @@ function fetchLocation() {
 
 // setInterval(fetchLocation, 5000);
 
-// function initMap(lat, long) {
-//     var options = {
-//         zoom: 8,
-//         center: lat, long
-//     }
-//     var map = new google.maps.Map(document.getElementById("map"), options)
-//     var marker = new google.maps.Marker({
-//         position: lat, long,
-//         map: map,
-//     })
-// }
-//function resetHomePage() {
-//allNewsButtons.classList.add('hide');
-// goBackButton.classList.remove('hide');
-//need to reset news articles too
-//}
+//function clearing third column
+function clearList () {
+    favoriteArticles.innerHTML = " "
+}
 
-init();
-
-//goBackButton.addEventListener('click', resetHomePage);
-favoriteNewsButton.addEventListener('click', showStoredArticles);
+//event listeners
 newsButton.addEventListener('click', fetchSatellites);
 spaceNewsButton.addEventListener('click', callSpaceNews);
+<<<<<<< HEAD
 
 
 var favoriteArticleLi = function (event) {
@@ -329,6 +295,11 @@ var favoriteArticleLi = function (event) {
         
 }
 
+=======
+clearListBtn.addEventListener('click', clearList);
+
+//appends checked articles to third column and removes them
+>>>>>>> f3368178a9db79793bda94c5e21e7b53739eab0c
 spaceArticles.addEventListener('click', function (event) {
     var selectedArticle = event.target;
     if (selectedArticle.matches('input')) {
@@ -357,6 +328,7 @@ newsArticles.addEventListener('click', function (event) {
         favoriteArticles.appendChild(dispURLArticle)
         selectedArticle.parentElement.parentElement.removeChild(selectedArticle.parentElement)
     }
+<<<<<<< HEAD
 })
 
 newsArticles.addEventListener('change', favoriteArticleLi)
@@ -371,3 +343,6 @@ var saveArticles = function(e){
 }
 
 saveArticleBtn.addEventListener('click', saveArticles)
+=======
+})
+>>>>>>> f3368178a9db79793bda94c5e21e7b53739eab0c

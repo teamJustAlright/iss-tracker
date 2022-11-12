@@ -28,6 +28,8 @@ Where the ISS at?: [https://wheretheiss.at/w/developer]
 
 Bing News Search API: [https://www.microsoft.com/en-us/bing/apis/bing-news-search-api]
 
+Space News API: [https://space-news.p.rapidapi.com/news]
+
 ## License
 
 MIT License

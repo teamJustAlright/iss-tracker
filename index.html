@@ -29,7 +29,7 @@
                 <div class="container">
                     <div class="columns">
                         <div class="column">
-                            <h1 class="title is-1 center text">
+                            <h1 class="title is-1 text center">
                                 World News By ISS
                             </h1>
 
@@ -56,16 +56,30 @@
     </header>
 
     <main>
-
+        <section class="section center" id="sadCoordinatesContainer">
+            <div class="container">
+                <div class="column">
+                    <p class="text center">
+                        Current ISS Coordinates
+                    </p>
+                    <ul class="text center">
+                        <li id="sadLat" class="center">Latitude: loading</li>
+                        <li id="sadLong" class="center">Longitude: loading</li>
+                    </ul>
+                    <p class="text center">
+                        Check the articles that appear to add them to your favorite news list!
+                    </p>
+                </div>
+            </div>
+        </section>
         <section id="allNewsButtons" class="section">
             <div class="container">
                 <div class="columns">
-
                     <div class="column">
                         <p class="text">
                             What's Happening Below the ISS?
                         </p>
-                        <button id="newsButton">click here</button>
+                        <button id="newsButton">Click Here</button>
                         <div id="newsArticles">
                         </div>
                     </div>
@@ -73,26 +87,20 @@
                         <p class="text">
                             Is Earth News a bit boring? Check out space news!
                         </p>
-                        <button id="spaceNewsButton">click here</button>
+                        <button id="spaceNewsButton">Click Here</button>
                         <div id="spaceArticles"></div>
                     </div>
                     <div class="column">
                         <p class="text">
                             View all of your favorite news articles here!
                         </p>
-                        <button id="favoriteNewsButton">click here</button>
+                        <button id="clearListBtn">Clear List</button>
                         <div id="favoriteArticles"></div>
+                        <button id="saveArticleBtn">Save List For Later</button>
                     </div>
                 </div>
             </div>
         </section>
-
-        <section class="saveArticleBtn">
-            <div class="column is-one-half">
-                <button id="saveArticleBtn">Save Checked Articles For Later</button>
-            </div>
-        </section>
-
 
     </main>
 
