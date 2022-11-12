@@ -1,5 +1,5 @@
-var currentArticles = [];
-var allStoredArticles = [];
+
+var localArticle = document.querySelector(".localArticle")
 
 var newsArticles = document.querySelector("#newsArticles")
 var spaceArticles = document.querySelector('#spaceArticles')
@@ -140,6 +140,15 @@ var callSpaceNews = function () {
         })
         .then(function (response) {
             console.log(response)
+
+            for (let j = response.length - 1; j > 0; j--) {
+                let randomPosition = Math.floor(Math.random() * (j + 1));
+                let temp = response[j];
+
+                response[j] = response[randomPosition];
+                response[randomPosition] = temp;
+            }
+
             for (var i = 0; i < 10; i++) {
                 console.log(response[i].url)
                 var title = response[i].url;
@@ -192,9 +201,11 @@ function fetchLocation() {
 }
 setInterval(fetchLocation, 5000);
 
-function clearList () {
+function clearList() {
     favoriteArticles.innerHTML = " "
 }
+
+
 newsButton.addEventListener('click', fetchSatellites);
 spaceNewsButton.addEventListener('click', callSpaceNews);
 clearListBtn.addEventListener('click', clearList);
@@ -204,10 +215,11 @@ spaceArticles.addEventListener('click', function (event) {
     //need to have event for spaceArticles div and the newArticles dive below (whatever is done here has to be done below)
     //could have logic to only append if checkbox is unchecked
     //could have another if statement to remove article if box unchecked. Need to look into how checkboxes function in html
-    if (selectedArticle.matches('input')) {
+    if (selectedArticle.checked === true) {
         var liArticle = document.createElement('li')
+        liArticle.setAttribute('class', 'localArticle')
         liArticle.textContent = selectedArticle.parentElement.textContent
-        dispURLArticle = document.createElement('a')
+        var dispURLArticle = document.createElement('a')
         var urlArticle = selectedArticle.value
         dispURLArticle.setAttribute('href', urlArticle)
         dispURLArticle.setAttribute('target', "_blank")
@@ -218,10 +230,11 @@ spaceArticles.addEventListener('click', function (event) {
 
 newsArticles.addEventListener('click', function (event) {
     var selectedArticle = event.target;
-    if (selectedArticle.matches('input')) {
+    if (selectedArticle.checked === true) {
         var liArticle = document.createElement('li')
+        liArticle.setAttribute('class', 'localArticle')
         liArticle.textContent = selectedArticle.parentElement.textContent
-        dispURLArticle = document.createElement('a')
+        var dispURLArticle = document.createElement('a')
         var urlArticle = selectedArticle.value
         dispURLArticle.setAttribute('href', urlArticle)
         dispURLArticle.setAttribute('target', "_blank")
@@ -229,3 +242,9 @@ newsArticles.addEventListener('click', function (event) {
         favoriteArticles.appendChild(dispURLArticle)
     }
 })
+
+//saveArticleBtn.addEventListener('click', function (event) {
+
+
+
+//})
