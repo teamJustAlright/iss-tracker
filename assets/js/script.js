@@ -6,25 +6,11 @@ var spaceArticles = document.querySelector('#spaceArticles')
 var favoriteArticles = document.querySelector('#favoriteArticles')
 var newsButton = document.querySelector('#newsButton')
 var spaceNewsButton = document.querySelector('#spaceNewsButton')
-var favoriteNewsButton = document.querySelector('#favoriteNewsButton')
+var clearListBtn = document.querySelector('#clearListBtn')
 var allNewsButtons = document.querySelector('#allNewsButtons')
-var goBackButton = document.querySelector('#goBackButton')
 var saveArticleBtn = document.querySelector('#saveArticleBtn')
 
 var sadURL = 'https://api.wheretheiss.at/v1/satellites/25544'
-
-function init() {
-    if (localStorage.getItem('storedArticle') == null || []) {
-        localStorage.setItem('storedArticle', '[]');
-        console.log('localStorage is empty')
-    }
-    if (localStorage.getItem('currentArticle') == null || []) {
-        localStorage.setItem('currentArticle', '[]');
-        console.log('localStorage is empty')
-    }
-
-}
-
 
 function fetchSatellites() {
     newsArticles.innerHTML = " ";
@@ -78,6 +64,8 @@ function fetchSatellites() {
                                             var dispLink = document.createElement('a')
                                             var dispCheck = document.createElement('input')
                                             dispCheck.setAttribute('type', 'checkbox')
+                                            dispCheck.setAttribute('class', 'storageCheckbox')
+                                            dispCheck.setAttribute('value', link)
                                             dispLink.setAttribute('href', link)
                                             dispLink.setAttribute('target', "_blank")
                                             dispTitle.appendChild(dispCheck)
@@ -114,6 +102,8 @@ function fetchSatellites() {
                                             var dispLink = document.createElement('a')
                                             var dispCheck = document.createElement('input')
                                             dispCheck.setAttribute('type', 'checkbox')
+                                            dispCheck.setAttribute('class', 'storageCheckbox')
+                                            dispCheck.setAttribute('value', link)
                                             dispLink.setAttribute('href', link)
                                             dispLink.setAttribute('target', "_blank")
                                             dispTitle.appendChild(dispCheck)
@@ -132,7 +122,6 @@ function fetchSatellites() {
             console.error(err);
         });
 }
-
 
 // function pulling space news
 var callSpaceNews = function () {
@@ -167,95 +156,20 @@ var callSpaceNews = function () {
                 dispTitle.appendChild(dispCheck)
                 dispLink.appendChild(dispTitle)
                 spaceArticles.appendChild(dispLink)
-
-                // store checkboxed articles to array
-                $('.storageCheckbox').on('click', function () {
-                    var pushVal = $(this).val();
-                    console.log(pushVal)
-                    if ($(this).is(':checked')) {
-                        currentArticles.push(pushVal);
-                        // removes multiples of same articles created by dynamic for loop that populated the articles
-                        currentArticles = [... new Set(currentArticles)];
-                        localStorage.setItem('currentArticle', JSON.stringify(currentArticles));
-                    } else {
-                        currentArticles.pop();
-                        localStorage.removeItem('currentArticle', JSON.stringify(pushVal));
-                    }
-                    console.log("current articles: " + currentArticles + '\n Current article: ' + localStorage.getItem('currentArticle'))
-                })
             }
         })
         .catch(err => console.error(err));
 }
 
-
-function showStoredArticles(event) {
-    event.preventDefault();
-    console.log("show stored articles function ran")
-
-    //if no local storage, leave blank array
-    if ((localStorage.getItem('storedArticle') === '[]') && (localStorage.getItem('currentArticle') === '[]')) {
-        localStorage.setItem('storedArticle', '[]');
-        console.log('localStorage is empty')
-        return
-    }
-
-    // get stored articles and add current articles
-
-    allStoredArticles = JSON.parse(localStorage.getItem('storedArticle'));
-    if (currentArticles === null) {
-        return
-
-    } else {
-        allStoredArticles.push(currentArticles);
-
-        // save stored & current data
-        localStorage.setItem('storedArticle', JSON.stringify(allStoredArticles));
-
-        allStoredArticles = [... new Set(allStoredArticles)];
-        console.log(allStoredArticles)
-
-        if (localStorage.getItem('storedArticle') != null) {
-
-
-            for (var i = 0; i < allStoredArticles.length; i++) {
-
-                var title = allStoredArticles[i];
-                var dispTitle = document.createElement('li')
-                dispTitle.textContent = title
-                var dispLink = document.createElement('a')
-                var dispCheck = document.createElement('input')
-                dispCheck.setAttribute('type', 'checkbox')
-                dispCheck.setAttribute('class', 'favoriteCheckbox')
-                dispCheck.setAttribute('value', title)
-                dispLink.setAttribute('href', title)
-                dispLink.setAttribute('target', "_blank")
-                dispTitle.appendChild(dispCheck)
-                dispLink.appendChild(dispTitle)
-                favoriteArticles.appendChild(dispLink)
-            }
-
-        }
-
-    }
-}
-
-// function showing ISS location in map
+// function showing ISS location in map every
 function fetchLocation() {
-    var latty
-    var long
 
     fetch(sadURL)
         .then(function (res) {
             return res.json();
         })
         .then(function (data) {
-            var latty = data.latitude
-            var long = data.longitude
-            console.log(latty)
-            console.log(long)
-
-            function initMap(latty, long) {
+            function initMap() {
                 var options = {
                     zoom: 4,
                     center: { lat: parseFloat(data.latitude), lng: parseFloat(data.longitude) }
@@ -278,26 +192,40 @@ function fetchLocation() {
 }
 setInterval(fetchLocation, 5000);
 
-// function initMap(lat, long) {
-//     var options = {
-//         zoom: 8,
-//         center: lat, long
-//     }
-//     var map = new google.maps.Map(document.getElementById("map"), options)
-//     var marker = new google.maps.Marker({
-//         position: lat, long,
-//         map: map,
-//     })
-// }
-//function resetHomePage() {
-//allNewsButtons.classList.add('hide');
-// goBackButton.classList.remove('hide');
-//need to reset news articles too
-//}
-
-init();
-
-//goBackButton.addEventListener('click', resetHomePage);
-favoriteNewsButton.addEventListener('click', showStoredArticles);
+function clearList () {
+    favoriteArticles.innerHTML = " "
+}
 newsButton.addEventListener('click', fetchSatellites);
 spaceNewsButton.addEventListener('click', callSpaceNews);
+clearListBtn.addEventListener('click', clearList);
+
+spaceArticles.addEventListener('click', function (event) {
+    var selectedArticle = event.target;
+    //need to have event for spaceArticles div and the newArticles dive below (whatever is done here has to be done below)
+    //could have logic to only append if checkbox is unchecked
+    //could have another if statement to remove article if box unchecked. Need to look into how checkboxes function in html
+    if (selectedArticle.matches('input')) {
+        var liArticle = document.createElement('li')
+        liArticle.textContent = selectedArticle.parentElement.textContent
+        dispURLArticle = document.createElement('a')
+        var urlArticle = selectedArticle.value
+        dispURLArticle.setAttribute('href', urlArticle)
+        dispURLArticle.setAttribute('target', "_blank")
+        dispURLArticle.appendChild(liArticle)
+        favoriteArticles.appendChild(dispURLArticle)
+    }
+})
+
+newsArticles.addEventListener('click', function (event) {
+    var selectedArticle = event.target;
+    if (selectedArticle.matches('input')) {
+        var liArticle = document.createElement('li')
+        liArticle.textContent = selectedArticle.parentElement.textContent
+        dispURLArticle = document.createElement('a')
+        var urlArticle = selectedArticle.value
+        dispURLArticle.setAttribute('href', urlArticle)
+        dispURLArticle.setAttribute('target', "_blank")
+        dispURLArticle.appendChild(liArticle)
+        favoriteArticles.appendChild(dispURLArticle)
+    }
+})

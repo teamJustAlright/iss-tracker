@@ -32,7 +32,7 @@
 
 #newsButton,
 #spaceNewsButton,
-#favoriteNewsButton,
+#clearListBtn,
 #saveArticleBtn {
     font-size: 1.3rem;
     text-decoration: none;
@@ -52,7 +52,7 @@
 
   #newsButton:hover,
   #spaceNewsButton:hover,
-  #favoriteNewsButton:hover,
+  #clearListBtn:hover,
   #saveArticleBtn:hover,
   li:hover {
     color: var(--textColorLight);
@@ -66,7 +66,6 @@
     border-radius: var(--border-radius);
     color: var(--textColorLight);
     display: inline-block;
-    height: 85px;
     list-style-type: none;
     margin: 10px;
     opacity: 80%;
