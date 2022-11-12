@@ -1,5 +1,5 @@
-// var currentArticles = [];
-// var allStoredArticles = [];
+var currentArticles = [];
+var allStoredArticles = [];
 
 var newsArticles = document.querySelector("#newsArticles")
 var spaceArticles = document.querySelector('#spaceArticles')
@@ -8,7 +8,7 @@ var newsButton = document.querySelector('#newsButton')
 var spaceNewsButton = document.querySelector('#spaceNewsButton')
 var clearListBtn = document.querySelector('#clearListBtn')
 var allNewsButtons = document.querySelector('#allNewsButtons')
-var saveArticleBtn = document.querySelector('#saveArticleBtn')
+var showArticleBtn = document.querySelector('#showSaved')
 var sadLat = document.querySelector('#sadLat')
 var sadLong = document.querySelector('#sadLong')
 
@@ -65,12 +65,8 @@ function fetchSatellites() {
                                             var dispLink = document.createElement('a')
                                             var dispCheck = document.createElement('input')
                                             dispCheck.setAttribute('type', 'checkbox')
-<<<<<<< HEAD
-                                            dispCheck.setAttribute('class', 'checkboxx')
-=======
                                             dispCheck.setAttribute('class', 'storageCheckbox')
                                             dispCheck.setAttribute('value', link)
->>>>>>> f3368178a9db79793bda94c5e21e7b53739eab0c
                                             dispLink.setAttribute('href', link)
                                             dispLink.setAttribute('target', "_blank")
                                             dispTitle.appendChild(dispCheck)
@@ -108,12 +104,8 @@ function fetchSatellites() {
                                             var dispLink = document.createElement('a')
                                             var dispCheck = document.createElement('input')
                                             dispCheck.setAttribute('type', 'checkbox')
-<<<<<<< HEAD
-                                            dispCheck.setAttribute('class', 'checkboxx')
-=======
                                             dispCheck.setAttribute('class', 'storageCheckbox')
                                             dispCheck.setAttribute('value', link)
->>>>>>> f3368178a9db79793bda94c5e21e7b53739eab0c
                                             dispLink.setAttribute('href', link)
                                             dispLink.setAttribute('target', "_blank")
                                             dispTitle.appendChild(dispCheck)
@@ -172,64 +164,7 @@ var callSpaceNews = function () {
         .catch(err => console.error(err));
 }
 
-<<<<<<< HEAD
-
-function showStoredArticles(event) {
-    event.preventDefault();
-    console.log("show stored articles function ran")
-
-    //if no local storage, leave blank array
-    if ((localStorage.getItem('storedArticle') === '[]') && (localStorage.getItem('currentArticle') === '[]')) {
-        localStorage.setItem('storedArticle', '[]');
-        console.log('localStorage is empty')
-        return
-    }
-
-    // get stored articles and add current articles
-
-    allStoredArticles = JSON.parse(localStorage.getItem('storedArticle'));
-    if (currentArticles === null) {
-        return
-
-    } else {
-        allStoredArticles.push(currentArticles);
-
-        // save stored & current data
-        localStorage.setItem('storedArticle', JSON.stringify(allStoredArticles));
-
-        allStoredArticles = [... new Set(allStoredArticles)];
-        console.log(allStoredArticles)
-
-        if (localStorage.getItem('storedArticle') != null) {
-
-
-            for (var i = 0; i < allStoredArticles.length; i++) {
-
-                var title = allStoredArticles[i];
-                var dispTitle = document.createElement('li')
-                dispTitle.textContent = title
-                var dispLink = document.createElement('a')
-                var dispCheck = document.createElement('input')
-                dispCheck.setAttribute('type', 'checkbox')
-                dispCheck.setAttribute('class', 'checkboxx')
-                dispCheck.setAttribute('class', 'favoriteCheckbox')
-                dispCheck.setAttribute('value', title)
-                dispLink.setAttribute('href', title)
-                dispLink.setAttribute('target', "_blank")
-                dispTitle.appendChild(dispCheck)
-                dispLink.appendChild(dispTitle)
-                favoriteArticles.appendChild(dispLink)
-            }
-
-        }
-
-    }
-}
-
-// function showing ISS location in map
-=======
 // function showing ISS location in map every 5 seconds
->>>>>>> f3368178a9db79793bda94c5e21e7b53739eab0c
 function fetchLocation() {
 
     fetch(sadURL)
@@ -271,35 +206,9 @@ function clearList () {
 //event listeners
 newsButton.addEventListener('click', fetchSatellites);
 spaceNewsButton.addEventListener('click', callSpaceNews);
-<<<<<<< HEAD
-
-
-var favoriteArticleLi = function (event) {
-    var selectedArticle = event.target;
-    var checkbox = document.querySelector('.checkboxx').checked
-    if (checkbox) {
-        var liArticle = document.createElement('li')
-        liArticle.textContent = selectedArticle.parentElement.textContent
-        dispURLArticle = document.createElement('a')
-        var urlArticle = selectedArticle.value
-        dispURLArticle.setAttribute('href', urlArticle)
-        dispURLArticle.setAttribute('target', "_blank")
-        dispURLArticle.appendChild(liArticle)
-        favoriteArticles.appendChild(dispURLArticle)
-    }
-    else if(!checkbox) {
-        liArticle = ''
-    }
-    else 
-        return
-        
-}
-
-=======
 clearListBtn.addEventListener('click', clearList);
 
 //appends checked articles to third column and removes them
->>>>>>> f3368178a9db79793bda94c5e21e7b53739eab0c
 spaceArticles.addEventListener('click', function (event) {
     var selectedArticle = event.target;
     if (selectedArticle.matches('input')) {
@@ -313,6 +222,14 @@ spaceArticles.addEventListener('click', function (event) {
         favoriteArticles.appendChild(dispURLArticle)
         selectedArticle.parentElement.parentElement.removeChild(selectedArticle.parentElement)
     }
+
+    var article = {
+        urlArticle: urlArticle,
+        title: selectedArticle,
+    }
+    currentArticles.push(article)
+    localStorage.setItem('space news', JSON.stringify(currentArticles))
+
 })
 
 newsArticles.addEventListener('click', function (event) {
@@ -328,21 +245,45 @@ newsArticles.addEventListener('click', function (event) {
         favoriteArticles.appendChild(dispURLArticle)
         selectedArticle.parentElement.parentElement.removeChild(selectedArticle.parentElement)
     }
-<<<<<<< HEAD
+
+    // var article = {
+    //     urlArticle: urlArticle,
+    //     selectedArticle: selectedArticle,
+    // }
+    // currentArticles.push(article)
+    // localStorage.setItem('space news', JSON.stringify(currentArticles))
+
 })
 
-newsArticles.addEventListener('change', favoriteArticleLi)
+function renderArticles (){
+    // var selectedArticle = event.target;
 
-var saveArticles = function(e){
-        localStorage.setItem("checkbox", checkbox.checked);	
+    var spaceArticles = localStorage.getItem('space news')
     
-    //for loading
-    var checked = JSON.parse(localStorage.getItem("checkbox"));
-        document.querySelector(".checkboxx").checked = checked;
-
+    if (spaceArticles){
+        currentArticles = JSON.parse(spaceArticles)
+    }
+    console.log(currentArticles)
+    for (let i = 0; i < currentArticles.length; i++) {
+        var element = currentArticles[i];
+        var liArticle = document.createElement('li')
+        dispURLArticle = document.createElement('a')
+        var articleURL = element.urlArticle
+        // var urlArticle = selectedArticle.value
+        liArticle.textContent = articleURL
+        // dispURLArticle.setAttribute('href', urlArticle)
+        dispURLArticle.setAttribute('href', articleURL)
+        dispURLArticle.setAttribute('target', "_blank")
+        dispURLArticle.appendChild(liArticle)
+        favoriteArticles.appendChild(dispURLArticle)
+        // selectedArticle.parentElement.parentElement.removeChild(selectedArticle.parentElement)
+    }
 }
 
-saveArticleBtn.addEventListener('click', saveArticles)
-=======
-})
->>>>>>> f3368178a9db79793bda94c5e21e7b53739eab0c
+renderArticles();
+
+// showArticleBtn.addEventListener('click', function(){
+
+
+// })
+
