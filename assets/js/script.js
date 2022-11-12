@@ -78,6 +78,7 @@ function fetchSatellites() {
                                             var dispLink = document.createElement('a')
                                             var dispCheck = document.createElement('input')
                                             dispCheck.setAttribute('type', 'checkbox')
+                                            dispCheck.setAttribute('class', 'checkboxx')
                                             dispLink.setAttribute('href', link)
                                             dispLink.setAttribute('target', "_blank")
                                             dispTitle.appendChild(dispCheck)
@@ -114,6 +115,7 @@ function fetchSatellites() {
                                             var dispLink = document.createElement('a')
                                             var dispCheck = document.createElement('input')
                                             dispCheck.setAttribute('type', 'checkbox')
+                                            dispCheck.setAttribute('class', 'checkboxx')
                                             dispLink.setAttribute('href', link)
                                             dispLink.setAttribute('target', "_blank")
                                             dispTitle.appendChild(dispCheck)
@@ -160,6 +162,7 @@ var callSpaceNews = function () {
                 var dispLink = document.createElement('a')
                 var dispCheck = document.createElement('input')
                 dispCheck.setAttribute('type', 'checkbox')
+                dispCheck.setAttribute('class', 'checkboxx')
                 dispCheck.setAttribute('class', 'storageCheckbox')
                 dispCheck.setAttribute('value', link)
                 dispLink.setAttribute('href', link)
@@ -226,6 +229,7 @@ function showStoredArticles(event) {
                 var dispLink = document.createElement('a')
                 var dispCheck = document.createElement('input')
                 dispCheck.setAttribute('type', 'checkbox')
+                dispCheck.setAttribute('class', 'checkboxx')
                 dispCheck.setAttribute('class', 'favoriteCheckbox')
                 dispCheck.setAttribute('value', title)
                 dispLink.setAttribute('href', title)
@@ -276,7 +280,8 @@ function fetchLocation() {
             console.error(err);
         });
 }
-setInterval(fetchLocation, 5000);
+
+// setInterval(fetchLocation, 5000);
 
 // function initMap(lat, long) {
 //     var options = {
@@ -301,3 +306,68 @@ init();
 favoriteNewsButton.addEventListener('click', showStoredArticles);
 newsButton.addEventListener('click', fetchSatellites);
 spaceNewsButton.addEventListener('click', callSpaceNews);
+
+
+var favoriteArticleLi = function (event) {
+    var selectedArticle = event.target;
+    var checkbox = document.querySelector('.checkboxx').checked
+    if (checkbox) {
+        var liArticle = document.createElement('li')
+        liArticle.textContent = selectedArticle.parentElement.textContent
+        dispURLArticle = document.createElement('a')
+        var urlArticle = selectedArticle.value
+        dispURLArticle.setAttribute('href', urlArticle)
+        dispURLArticle.setAttribute('target', "_blank")
+        dispURLArticle.appendChild(liArticle)
+        favoriteArticles.appendChild(dispURLArticle)
+    }
+    else if(!checkbox) {
+        liArticle = ''
+    }
+    else 
+        return
+        
+}
+
+spaceArticles.addEventListener('click', function (event) {
+    var selectedArticle = event.target;
+    if (selectedArticle.matches('input')) {
+        var liArticle = document.createElement('li')
+        liArticle.textContent = selectedArticle.parentElement.textContent
+        dispURLArticle = document.createElement('a')
+        var urlArticle = selectedArticle.value
+        dispURLArticle.setAttribute('href', urlArticle)
+        dispURLArticle.setAttribute('target', "_blank")
+        dispURLArticle.appendChild(liArticle)
+        favoriteArticles.appendChild(dispURLArticle)
+        selectedArticle.parentElement.parentElement.removeChild(selectedArticle.parentElement)
+    }
+})
+
+newsArticles.addEventListener('click', function (event) {
+    var selectedArticle = event.target;
+    if (selectedArticle.matches('input')) {
+        var liArticle = document.createElement('li')
+        liArticle.textContent = selectedArticle.parentElement.textContent
+        dispURLArticle = document.createElement('a')
+        var urlArticle = selectedArticle.value
+        dispURLArticle.setAttribute('href', urlArticle)
+        dispURLArticle.setAttribute('target', "_blank")
+        dispURLArticle.appendChild(liArticle)
+        favoriteArticles.appendChild(dispURLArticle)
+        selectedArticle.parentElement.parentElement.removeChild(selectedArticle.parentElement)
+    }
+})
+
+newsArticles.addEventListener('change', favoriteArticleLi)
+
+var saveArticles = function(e){
+        localStorage.setItem("checkbox", checkbox.checked);	
+    
+    //for loading
+    var checked = JSON.parse(localStorage.getItem("checkbox"));
+        document.querySelector(".checkboxx").checked = checked;
+
+}
+
+saveArticleBtn.addEventListener('click', saveArticles)
