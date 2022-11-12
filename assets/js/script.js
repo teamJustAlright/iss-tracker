@@ -1,5 +1,5 @@
-var currentArticles = [];
-var allStoredArticles = [];
+// var currentArticles = [];
+// var allStoredArticles = [];
 
 var newsArticles = document.querySelector("#newsArticles")
 var spaceArticles = document.querySelector('#spaceArticles')
@@ -9,9 +9,12 @@ var spaceNewsButton = document.querySelector('#spaceNewsButton')
 var clearListBtn = document.querySelector('#clearListBtn')
 var allNewsButtons = document.querySelector('#allNewsButtons')
 var saveArticleBtn = document.querySelector('#saveArticleBtn')
+var sadLat = document.querySelector('#sadLat')
+var sadLong = document.querySelector('#sadLong')
 
 var sadURL = 'https://api.wheretheiss.at/v1/satellites/25544'
 
+//function getting lat and long of ISS
 function fetchSatellites() {
     newsArticles.innerHTML = " ";
     fetch(sadURL)
@@ -23,9 +26,7 @@ function fetchSatellites() {
             console.log(data)
             var lat = data.latitude
             var long = data.longitude
-            console.log(lat)
-            console.log(long)
-
+            //function getting local area according to lat and long of ISS
             function fetchCoordinates() {
                 var coordURL = "https://api.wheretheiss.at/v1/coordinates/" + lat + "," + long
                 fetch(coordURL)
@@ -37,8 +38,8 @@ function fetchSatellites() {
                         console.log(dataCoord)
                         var search = dataCoord.timezone_id
                         console.log(search)
-                        //get news from iss coordinates api
                         if (search.includes("GMT")) {
+                            //function pulling articles on the ocean when ISS is not over land
                             function fetchOceanNews() {
                                 const options = {
                                     method: 'GET',
@@ -77,6 +78,7 @@ function fetchSatellites() {
                             fetchOceanNews()
                         }
                         else {
+                            //function pulling ariticles according to area below ISS
                             function fetchNews() {
                                 const options = {
                                     method: 'GET',
@@ -161,7 +163,7 @@ var callSpaceNews = function () {
         .catch(err => console.error(err));
 }
 
-// function showing ISS location in map every
+// function showing ISS location in map every 5 seconds
 function fetchLocation() {
 
     fetch(sadURL)
@@ -185,6 +187,8 @@ function fetchLocation() {
                 })
             }
             initMap();
+            sadLat.textContent = 'Latitude: ' + data.latitude.toFixed(5)
+            sadLong.textContent = 'Longitude: ' + data.longitude.toFixed(5)
         })
         .catch(function (err) {
             console.error(err);
@@ -192,18 +196,19 @@ function fetchLocation() {
 }
 setInterval(fetchLocation, 5000);
 
+//function clearing third column
 function clearList () {
     favoriteArticles.innerHTML = " "
 }
+
+//event listeners
 newsButton.addEventListener('click', fetchSatellites);
 spaceNewsButton.addEventListener('click', callSpaceNews);
 clearListBtn.addEventListener('click', clearList);
 
+//appends checked articles to third column and removes them
 spaceArticles.addEventListener('click', function (event) {
     var selectedArticle = event.target;
-    //need to have event for spaceArticles div and the newArticles dive below (whatever is done here has to be done below)
-    //could have logic to only append if checkbox is unchecked
-    //could have another if statement to remove article if box unchecked. Need to look into how checkboxes function in html
     if (selectedArticle.matches('input')) {
         var liArticle = document.createElement('li')
         liArticle.textContent = selectedArticle.parentElement.textContent
@@ -213,6 +218,7 @@ spaceArticles.addEventListener('click', function (event) {
         dispURLArticle.setAttribute('target', "_blank")
         dispURLArticle.appendChild(liArticle)
         favoriteArticles.appendChild(dispURLArticle)
+        selectedArticle.parentElement.parentElement.removeChild(selectedArticle.parentElement)
     }
 })
 
@@ -227,5 +233,6 @@ newsArticles.addEventListener('click', function (event) {
         dispURLArticle.setAttribute('target', "_blank")
         dispURLArticle.appendChild(liArticle)
         favoriteArticles.appendChild(dispURLArticle)
+        selectedArticle.parentElement.parentElement.removeChild(selectedArticle.parentElement)
     }
 })
