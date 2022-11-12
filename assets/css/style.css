@@ -42,7 +42,7 @@
 #newsButton,
 #spaceNewsButton,
 #clearListBtn,
-#saveArticleBtn 
+#showSaved
 {
     background-color: var(--button);
     border: none;
@@ -63,7 +63,7 @@
 #newsButton:hover,
 #spaceNewsButton:hover,
 #clearListBtn:hover,
-#saveArticleBtn:hover,
+#showSaved:hover,
 li:hover {
     color: var(--textColorLight);
     background-color: var(--buttonHover);

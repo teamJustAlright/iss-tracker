@@ -246,12 +246,12 @@ newsArticles.addEventListener('click', function (event) {
         selectedArticle.parentElement.parentElement.removeChild(selectedArticle.parentElement)
     }
 
-    // var article = {
-    //     urlArticle: urlArticle,
-    //     selectedArticle: selectedArticle,
-    // }
-    // currentArticles.push(article)
-    // localStorage.setItem('space news', JSON.stringify(currentArticles))
+    var article = {
+        urlArticle: urlArticle,
+        selectedArticle: selectedArticle,
+    }
+    allStoredArticles.push(article)
+    localStorage.setItem('space news', JSON.stringify(allStoredArticles))
 
 })
 
@@ -280,10 +280,6 @@ function renderArticles (){
     }
 }
 
-renderArticles();
 
-// showArticleBtn.addEventListener('click', function(){
-
-
-// })
+showArticleBtn.addEventListener('click', renderArticles)
 
