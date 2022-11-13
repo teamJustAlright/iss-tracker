@@ -1,6 +1,5 @@
-
-var currentArticles = [];
-var allStoredArticles = [];
+var currentArticles = []
+var allStoredArticles = []
 
 var newsArticles = document.querySelector("#newsArticles")
 var spaceArticles = document.querySelector('#spaceArticles')
@@ -9,6 +8,7 @@ var newsButton = document.querySelector('#newsButton')
 var spaceNewsButton = document.querySelector('#spaceNewsButton')
 var clearListBtn = document.querySelector('#clearListBtn')
 var allNewsButtons = document.querySelector('#allNewsButtons')
+// var saveArticleBtn = document.querySelector('#saveArticleBtn')
 var showArticleBtn = document.querySelector('#showSaved')
 var sadLat = document.querySelector('#sadLat')
 var sadLong = document.querySelector('#sadLong')
@@ -159,7 +159,6 @@ var callSpaceNews = function () {
                 var dispLink = document.createElement('a')
                 var dispCheck = document.createElement('input')
                 dispCheck.setAttribute('type', 'checkbox')
-                dispCheck.setAttribute('class', 'checkboxx')
                 dispCheck.setAttribute('class', 'storageCheckbox')
                 dispCheck.setAttribute('value', link)
                 dispLink.setAttribute('href', link)
@@ -242,11 +241,7 @@ spaceArticles.addEventListener('click', function (event) {
 
     allStoredArticles = JSON.parse(localStorage.getItem('space news'))
     console.log(allStoredArticles)
-    if (allStoredArticles 
-    
-    
-    
-    null) {
+    if (allStoredArticles == null) {
         allStoredArticles = []
         allStoredArticles.push(article)
         localStorage.setItem('space news', JSON.stringify(allStoredArticles))
@@ -255,6 +250,7 @@ spaceArticles.addEventListener('click', function (event) {
         allStoredArticles.push(article)
         localStorage.setItem('space news', JSON.stringify(allStoredArticles))
     }
+
 })
 
 newsArticles.addEventListener('click', function (event) {
@@ -310,4 +306,3 @@ function renderArticles() {
 }
 // renderArticles();
 showArticleBtn.addEventListener('click', renderArticles)
-
