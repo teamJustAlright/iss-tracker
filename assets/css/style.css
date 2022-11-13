@@ -63,8 +63,7 @@
 #newsButton:hover,
 #spaceNewsButton:hover,
 #clearListBtn:hover,
-#saveArticleBtn:hover,
-#showSaved,
+#showSaved:hover,
 li:hover {
     color: var(--textColorLight);
     background-color: var(--buttonHover);
