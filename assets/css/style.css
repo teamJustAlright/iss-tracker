@@ -42,7 +42,7 @@
 #newsButton,
 #spaceNewsButton,
 #clearListBtn,
-#showSaved
+#showSaved 
 {
     background-color: var(--button);
     border: none;

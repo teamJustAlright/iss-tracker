@@ -1,3 +1,4 @@
+
 var currentArticles = [];
 var allStoredArticles = [];
 
@@ -142,6 +143,13 @@ var callSpaceNews = function () {
         })
         .then(function (response) {
             console.log(response)
+            for (let j = response.length - 1; j > 0; j--) {
+                let randomPosition = Math.floor(Math.random() * (j + 1));
+                let temp = response[j];
+
+                response[j] = response[randomPosition];
+                response[randomPosition] = temp;
+            }
             for (var i = 0; i < 10; i++) {
                 console.log(response[i].url)
                 var title = response[i].url;
@@ -196,11 +204,13 @@ function fetchLocation() {
         });
 }
 
-// setInterval(fetchLocation, 5000);
+setInterval(fetchLocation, 5000);
 
 //function clearing third column
-function clearList () {
+function clearList() {
     favoriteArticles.innerHTML = " "
+    localStorage.clear()
+
 }
 
 //event listeners
@@ -210,6 +220,9 @@ clearListBtn.addEventListener('click', clearList);
 
 //appends checked articles to third column and removes them
 spaceArticles.addEventListener('click', function (event) {
+    var spaceArticles = localStorage.getItem('space news')
+    currentArticles = JSON.parse(spaceArticles)
+
     var selectedArticle = event.target;
     if (selectedArticle.matches('input')) {
         var liArticle = document.createElement('li')
@@ -222,14 +235,26 @@ spaceArticles.addEventListener('click', function (event) {
         favoriteArticles.appendChild(dispURLArticle)
         selectedArticle.parentElement.parentElement.removeChild(selectedArticle.parentElement)
     }
-
     var article = {
         urlArticle: urlArticle,
-        title: selectedArticle,
+        selectedArticle: selectedArticle.parentElement.textContent
     }
-    currentArticles.push(article)
-    localStorage.setItem('space news', JSON.stringify(currentArticles))
 
+    allStoredArticles = JSON.parse(localStorage.getItem('space news'))
+    console.log(allStoredArticles)
+    if (allStoredArticles 
+    
+    
+    
+    null) {
+        allStoredArticles = []
+        allStoredArticles.push(article)
+        localStorage.setItem('space news', JSON.stringify(allStoredArticles))
+    }
+    else {
+        allStoredArticles.push(article)
+        localStorage.setItem('space news', JSON.stringify(allStoredArticles))
+    }
 })
 
 newsArticles.addEventListener('click', function (event) {
@@ -245,41 +270,44 @@ newsArticles.addEventListener('click', function (event) {
         favoriteArticles.appendChild(dispURLArticle)
         selectedArticle.parentElement.parentElement.removeChild(selectedArticle.parentElement)
     }
-
     var article = {
         urlArticle: urlArticle,
-        selectedArticle: selectedArticle,
+        selectedArticle: selectedArticle.parentElement.textContent,
     }
-    allStoredArticles.push(article)
-    localStorage.setItem('space news', JSON.stringify(allStoredArticles))
 
+    allStoredArticles = JSON.parse(localStorage.getItem('space news'))
+    console.log(allStoredArticles)
+    if (allStoredArticles == null) {
+        allStoredArticles = []
+        allStoredArticles.push(article)
+        localStorage.setItem('space news', JSON.stringify(allStoredArticles))
+    }
+    else {
+        allStoredArticles.push(article)
+        localStorage.setItem('space news', JSON.stringify(allStoredArticles))
+    }
 })
 
-function renderArticles (){
-    // var selectedArticle = event.target;
-
+function renderArticles() {
     var spaceArticles = localStorage.getItem('space news')
-    
-    if (spaceArticles){
+
+    if (spaceArticles) {
         currentArticles = JSON.parse(spaceArticles)
-    }
-    console.log(currentArticles)
-    for (let i = 0; i < currentArticles.length; i++) {
-        var element = currentArticles[i];
-        var liArticle = document.createElement('li')
-        dispURLArticle = document.createElement('a')
-        var articleURL = element.urlArticle
-        // var urlArticle = selectedArticle.value
-        liArticle.textContent = articleURL
-        // dispURLArticle.setAttribute('href', urlArticle)
-        dispURLArticle.setAttribute('href', articleURL)
-        dispURLArticle.setAttribute('target', "_blank")
-        dispURLArticle.appendChild(liArticle)
-        favoriteArticles.appendChild(dispURLArticle)
-        // selectedArticle.parentElement.parentElement.removeChild(selectedArticle.parentElement)
+        console.log(currentArticles)
+        for (let i = 0; i < currentArticles.length; i++) {
+            var element = currentArticles[i];
+            var liArticle = document.createElement('li')
+            dispURLArticle = document.createElement('a')
+            var articleURL = element.urlArticle
+            var articleTitle = element.selectedArticle
+            liArticle.textContent = articleTitle
+            dispURLArticle.setAttribute('href', articleURL)
+            dispURLArticle.setAttribute('target', "_blank")
+            dispURLArticle.appendChild(liArticle)
+            favoriteArticles.appendChild(dispURLArticle)
+        }
     }
 }
-
-
+// renderArticles();
 showArticleBtn.addEventListener('click', renderArticles)
 
