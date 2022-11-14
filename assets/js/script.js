@@ -8,7 +8,6 @@ var newsButton = document.querySelector('#newsButton')
 var spaceNewsButton = document.querySelector('#spaceNewsButton')
 var clearListBtn = document.querySelector('#clearListBtn')
 var allNewsButtons = document.querySelector('#allNewsButtons')
-// var saveArticleBtn = document.querySelector('#saveArticleBtn')
 var showArticleBtn = document.querySelector('#showSaved')
 var sadLat = document.querySelector('#sadLat')
 var sadLong = document.querySelector('#sadLong')
@@ -20,11 +19,11 @@ function fetchSatellites() {
     newsArticles.innerHTML = " ";
     fetch(sadURL)
         .then(function (res) {
-            console.log(res)
+            //console.log(res)
             return res.json();
         })
         .then(function (data) {
-            console.log(data)
+            //console.log(data)
             var lat = data.latitude
             var long = data.longitude
             //function getting local area according to lat and long of ISS
@@ -32,13 +31,13 @@ function fetchSatellites() {
                 var coordURL = "https://api.wheretheiss.at/v1/coordinates/" + lat + "," + long
                 fetch(coordURL)
                     .then(function (resCoord) {
-                        console.log(resCoord)
+                        //console.log(resCoord)
                         return resCoord.json();
                     })
                     .then(function (dataCoord) {
-                        console.log(dataCoord)
+                        //console.log(dataCoord)
                         var search = dataCoord.timezone_id
-                        console.log(search)
+                        //console.log(search)
                         if (search.includes("GMT")) {
                             //function pulling articles on the ocean when ISS is not over land
                             function fetchOceanNews() {
@@ -52,15 +51,15 @@ function fetchSatellites() {
                                 };
                                 fetch('https://bing-news-search1.p.rapidapi.com/news/search?q=ocean&safeSearch=Off&textFormat=Raw&freshness=Day', options)
                                     .then(function (resNews) {
-                                        console.log(resNews)
+                                        //console.log(resNews)
                                         return resNews.json();
                                     })
                                     .then(function (newsData) {
-                                        console.log(newsData)
+                                        //console.log(newsData)
                                         for (var i = 0; i < newsData.value.length; i++) {
-                                            console.log(newsData.value[i].name)
+                                            //console.log(newsData.value[i].name)
                                             var title = newsData.value[i].name;
-                                            dispTitle = document.createElement('li')
+                                            var dispTitle = document.createElement('li')
                                             dispTitle.textContent = title
                                             var link = newsData.value[i].url
                                             var dispLink = document.createElement('a')
@@ -91,15 +90,15 @@ function fetchSatellites() {
                                 };
                                 fetch('https://bing-news-search1.p.rapidapi.com/news/search?q=' + search + '&safeSearch=Off&textFormat=Raw&freshness=Day', options)
                                     .then(function (resNews) {
-                                        console.log(resNews)
+                                        //console.log(resNews)
                                         return resNews.json();
                                     })
                                     .then(function (newsData) {
-                                        console.log(newsData)
+                                        //console.log(newsData)
                                         for (var i = 0; i < newsData.value.length; i++) {
-                                            console.log(newsData.value[i].name)
+                                            //console.log(newsData.value[i].name)
                                             var title = newsData.value[i].name;
-                                            dispTitle = document.createElement('li')
+                                            var dispTitle = document.createElement('li')
                                             dispTitle.textContent = title
                                             var link = newsData.value[i].url
                                             var dispLink = document.createElement('a')
@@ -122,7 +121,7 @@ function fetchSatellites() {
             fetchCoordinates();
         })
         .catch(function (err) {
-            console.error(err);
+            //console.error(err);
         });
 }
 
@@ -142,7 +141,7 @@ var callSpaceNews = function () {
             return response.json();
         })
         .then(function (response) {
-            console.log(response)
+            //console.log(response)
             for (let j = response.length - 1; j > 0; j--) {
                 let randomPosition = Math.floor(Math.random() * (j + 1));
                 let temp = response[j];
@@ -151,9 +150,9 @@ var callSpaceNews = function () {
                 response[randomPosition] = temp;
             }
             for (var i = 0; i < 10; i++) {
-                console.log(response[i].url)
+                //console.log(response[i].url)
                 var title = response[i].url;
-                dispTitle = document.createElement('li')
+                var dispTitle = document.createElement('li')
                 dispTitle.textContent = title
                 var link = response[i].url
                 var dispLink = document.createElement('a')
@@ -199,11 +198,14 @@ function fetchLocation() {
             sadLong.textContent = 'Longitude: ' + data.longitude.toFixed(5)
         })
         .catch(function (err) {
-            console.error(err);
+            //console.error(err);
         });
 }
 
-setInterval(fetchLocation, 5000);
+
+
+fetchLocation(); // will display map immediately
+setInterval(fetchLocation, 5000); //refreshes map every 5s
 
 //function clearing third column
 function clearList() {
@@ -211,11 +213,6 @@ function clearList() {
     localStorage.clear()
 
 }
-
-//event listeners
-newsButton.addEventListener('click', fetchSatellites);
-spaceNewsButton.addEventListener('click', callSpaceNews);
-clearListBtn.addEventListener('click', clearList);
 
 //appends checked articles to third column and removes them
 spaceArticles.addEventListener('click', function (event) {
@@ -226,7 +223,7 @@ spaceArticles.addEventListener('click', function (event) {
     if (selectedArticle.matches('input')) {
         var liArticle = document.createElement('li')
         liArticle.textContent = selectedArticle.parentElement.textContent
-        dispURLArticle = document.createElement('a')
+        var dispURLArticle = document.createElement('a')
         var urlArticle = selectedArticle.value
         dispURLArticle.setAttribute('href', urlArticle)
         dispURLArticle.setAttribute('target', "_blank")
@@ -240,7 +237,7 @@ spaceArticles.addEventListener('click', function (event) {
     }
 
     allStoredArticles = JSON.parse(localStorage.getItem('space news'))
-    console.log(allStoredArticles)
+    //console.log(allStoredArticles)
     if (allStoredArticles == null) {
         allStoredArticles = []
         allStoredArticles.push(article)
@@ -258,7 +255,7 @@ newsArticles.addEventListener('click', function (event) {
     if (selectedArticle.matches('input')) {
         var liArticle = document.createElement('li')
         liArticle.textContent = selectedArticle.parentElement.textContent
-        dispURLArticle = document.createElement('a')
+        var dispURLArticle = document.createElement('a')
         var urlArticle = selectedArticle.value
         dispURLArticle.setAttribute('href', urlArticle)
         dispURLArticle.setAttribute('target', "_blank")
@@ -272,7 +269,7 @@ newsArticles.addEventListener('click', function (event) {
     }
 
     allStoredArticles = JSON.parse(localStorage.getItem('space news'))
-    console.log(allStoredArticles)
+    //console.log(allStoredArticles)
     if (allStoredArticles == null) {
         allStoredArticles = []
         allStoredArticles.push(article)
@@ -289,11 +286,11 @@ function renderArticles() {
 
     if (spaceArticles) {
         currentArticles = JSON.parse(spaceArticles)
-        console.log(currentArticles)
+        //console.log(currentArticles)
         for (let i = 0; i < currentArticles.length; i++) {
             var element = currentArticles[i];
             var liArticle = document.createElement('li')
-            dispURLArticle = document.createElement('a')
+            var dispURLArticle = document.createElement('a')
             var articleURL = element.urlArticle
             var articleTitle = element.selectedArticle
             liArticle.textContent = articleTitle
@@ -304,5 +301,9 @@ function renderArticles() {
         }
     }
 }
-// renderArticles();
+
+//event listeners
+newsButton.addEventListener('click', fetchSatellites);
+spaceNewsButton.addEventListener('click', callSpaceNews);
+clearListBtn.addEventListener('click', clearList);
 showArticleBtn.addEventListener('click', renderArticles)
