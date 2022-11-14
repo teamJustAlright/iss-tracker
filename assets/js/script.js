@@ -59,6 +59,12 @@ function fetchSatellites() {
                                         for (var i = 0; i < newsData.value.length; i++) {
                                             //console.log(newsData.value[i].name)
                                             var title = newsData.value[i].name;
+                                            title = title.split('https://www.');
+                                            title = title.join('');
+                                            title = title.split('https://');
+                                            title = title.join('');
+                                            title = title.split('-');
+                                            title = title.join(' ');
                                             var dispTitle = document.createElement('li')
                                             dispTitle.textContent = title
                                             var link = newsData.value[i].url
@@ -98,6 +104,12 @@ function fetchSatellites() {
                                         for (var i = 0; i < newsData.value.length; i++) {
                                             //console.log(newsData.value[i].name)
                                             var title = newsData.value[i].name;
+                                            title = title.split('https://www.');
+                                            title = title.join('');
+                                            title = title.split('https://');
+                                            title = title.join('');
+                                            title = title.split('-');
+                                            title = title.join(' ');
                                             var dispTitle = document.createElement('li')
                                             dispTitle.textContent = title
                                             var link = newsData.value[i].url
@@ -152,6 +164,12 @@ var callSpaceNews = function () {
             for (var i = 0; i < 10; i++) {
                 //console.log(response[i].url)
                 var title = response[i].url;
+                title = title.split('https://www.');
+                title = title.join('');
+                title = title.split('https://');
+                title = title.join('');
+                title = title.split('-');
+                title = title.join(' ');
                 var dispTitle = document.createElement('li')
                 dispTitle.textContent = title
                 var link = response[i].url
